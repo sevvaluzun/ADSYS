@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kayıt Ol</title>
+</head>
+<body>
+
+<h1>Kayıt Ol</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">
+        Kayıt Ol
+    </button>
+</form>
+
+<br>
+
+<a href="/hesap/login/">
+    Giriş Yap
+</a>
+
+</body>
+</html>

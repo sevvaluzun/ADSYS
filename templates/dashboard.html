@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>ADSYS Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/panel/">
+            ADSYS Yönetim Paneli
+        </a>
+
+        <div>
+            <a href="/" class="btn btn-outline-light btn-sm me-2">
+                Mağazaya Git
+            </a>
+
+            <a href="/admin/" class="btn btn-warning btn-sm">
+                Admin Paneli
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+
+    <h1 class="mb-4">Dashboard</h1>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Ürün</h6>
+                    <h2>{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Müşteri</h6>
+                    <h2>{{ total_customers }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Sipariş</h6>
+                    <h2>{{ total_orders }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Gelir</h6>
+                    <h2>{{ total_revenue }} TL</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white fw-bold">
+                    Düşük Stoklu Ürünler
+                </div>
+
+                <div class="card-body">
+                    {% for product in low_stock_products %}
+                        <div class="d-flex justify-content-between border-bottom py-2">
+                            <span>{{ product.name }}</span>
+                            <span class="badge bg-danger">
+                                Stok: {{ product.stock }}
+                            </span>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted mb-0">
+                            Düşük stoklu ürün yok.
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white fw-bold">
+                    Son Siparişler
+                </div>
+
+                <div class="card-body">
+                    {% for order in recent_orders %}
+                        <div class="border-bottom py-2">
+                            <strong>Sipariş #{{ order.id }}</strong>
+                            <br>
+                            <small>
+                                {{ order.customer }} —
+                                {{ order.total_price }} TL —
+                                {{ order.get_status_display }}
+                            </small>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted mb-0">
+                            Henüz sipariş yok.
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
