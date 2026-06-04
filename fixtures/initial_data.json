@@ -1,0 +1,164 @@
+[
+{
+  "model": "products.category",
+  "pk": 1,
+  "fields": {
+    "name": "Sağlık",
+    "description": ""
+  }
+},
+{
+  "model": "products.category",
+  "pk": 2,
+  "fields": {
+    "name": "Eğlence",
+    "description": ""
+  }
+},
+{
+  "model": "products.supplier",
+  "pk": 1,
+  "fields": {
+    "name": "Yeni Toptancı",
+    "phone": "02123455667",
+    "email": "yenitoptanci@gmail.com",
+    "address": "Mahmutbey, 2430. Sokak no:11 Bağcılar/İstanbul"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "supplier": 1,
+    "name": "Maske",
+    "description": "",
+    "price": "10.00",
+    "cost_price": "5.00",
+    "stock": 30,
+    "minimum_stock": 5,
+    "image": "products/Surgical-Mask-PNG-Photo.png",
+    "is_active": true,
+    "created_at": "2026-06-04T15:45:12.863Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "supplier": 1,
+    "name": "Eldiven",
+    "description": "",
+    "price": "20.00",
+    "cost_price": "10.00",
+    "stock": 148,
+    "minimum_stock": 15,
+    "image": "products/pngwing.com.png",
+    "is_active": true,
+    "created_at": "2026-06-04T16:27:12.345Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "category": 1,
+    "supplier": 1,
+    "name": "Şırınga",
+    "description": "",
+    "price": "50.00",
+    "cost_price": "40.00",
+    "stock": 150,
+    "minimum_stock": 20,
+    "image": "products/pngwing.com_1.png",
+    "is_active": true,
+    "created_at": "2026-06-04T17:24:59.439Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "category": 1,
+    "supplier": 1,
+    "name": "Bandaj",
+    "description": "",
+    "price": "40.00",
+    "cost_price": "25.00",
+    "stock": 150,
+    "minimum_stock": 10,
+    "image": "products/pngwing.com_2.png",
+    "is_active": true,
+    "created_at": "2026-06-04T17:25:53.779Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "category": 1,
+    "supplier": 1,
+    "name": "Galoş",
+    "description": "",
+    "price": "10.00",
+    "cost_price": "5.00",
+    "stock": 100,
+    "minimum_stock": 5,
+    "image": "products/ChatGPT_Image_4_Haz_2026_12_14_58.png",
+    "is_active": true,
+    "created_at": "2026-06-04T17:26:50.413Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 6,
+  "fields": {
+    "category": 2,
+    "supplier": 1,
+    "name": "Lego",
+    "description": "",
+    "price": "500.00",
+    "cost_price": "249.99",
+    "stock": 100,
+    "minimum_stock": 10,
+    "image": "products/lego-creator-ic-lego-10703-classic-creative-builder-box-toy-8b6f353fe338c9ce718_QOJHyeD.png",
+    "is_active": true,
+    "created_at": "2026-06-04T17:38:16.787Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 7,
+  "fields": {
+    "category": 2,
+    "supplier": 1,
+    "name": "Ayıcık",
+    "description": "",
+    "price": "250.00",
+    "cost_price": "125.00",
+    "stock": 100,
+    "minimum_stock": 10,
+    "image": "products/vecteezy_ai-generated-teddy-bear-toy-on-a-transparent-background_36568580.png",
+    "is_active": true,
+    "created_at": "2026-06-04T17:39:51.864Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 8,
+  "fields": {
+    "category": 2,
+    "supplier": 1,
+    "name": "Oyuncak Araba",
+    "description": "",
+    "price": "300.00",
+    "cost_price": "150.00",
+    "stock": 150,
+    "minimum_stock": 20,
+    "image": "products/clipart3022194.png",
+    "is_active": true,
+    "created_at": "2026-06-04T17:43:56.853Z"
+  }
+}
+]
