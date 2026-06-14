@@ -1,7 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
 from .models import Product, Category
 from cart.models import Cart, CartItem
+
+
+def landing(request):
+    products = Product.objects.filter(is_active=True)[:4]
+
+    return render(request, "landing.html", {"products": products})
 
 
 def home(request):
@@ -29,13 +36,29 @@ def home(request):
     )
 
 
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id, is_active=True)
+
+    related_products = Product.objects.filter(
+        category=product.category,
+        is_active=True
+    ).exclude(id=product.id)[:4]
+
+    return render(
+        request,
+        "product_detail.html",
+        {
+            "product": product,
+            "related_products": related_products,
+        }
+    )
+
+
 @login_required
 def add_to_cart(request, product_id):
-    product = Product.objects.get(id=product_id)
+    product = get_object_or_404(Product, id=product_id, is_active=True)
 
-    cart, created = Cart.objects.get_or_create(
-        user=request.user
-    )
+    cart, created = Cart.objects.get_or_create(user=request.user)
 
     item, created = CartItem.objects.get_or_create(
         cart=cart,

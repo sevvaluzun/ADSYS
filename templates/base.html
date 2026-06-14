@@ -1,0 +1,150 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ADSYS{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=5">
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold fs-4 me-4" href="/">
+                ADSYS
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link px-3" href="/">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/magaza/">Mağaza</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/bagis/">Afet Merkezi</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/bagis/bilgi/">Bilgilendirme</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/bagis/gonullu/">Gönüllü Ol</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/bagis/hazirlik-kontrolu/">Hazırlık Kontrolü</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    {% if user.is_authenticated %}
+                    <span class="nav-user-text me-2">
+                        Merhaba, {{ user.username }}
+                    </span>
+
+                    {% if user.is_staff %}
+                    <a href="/panel/" class="btn btn-nav btn-nav-admin">Dashboard</a>
+                    <a href="/admin/" class="btn btn-nav btn-nav-danger">Yönetim</a>
+                    {% endif %}
+
+                    <a href="/hesap/siparislerim/" class="btn btn-nav btn-nav-outline">Siparişlerim</a>
+                    <a href="/sepetim/" class="btn btn-nav btn-nav-primary">Sepetim</a>
+
+                    <form method="post" action="/hesap/logout/" class="m-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-nav btn-nav-outline">Çıkış</button>
+                    </form>
+                    {% else %}
+                    <a href="/hesap/login/" class="btn btn-nav btn-nav-outline">Giriş Yap</a>
+                    <a href="/hesap/kayit/" class="btn btn-nav btn-nav-primary">Üye Ol</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    {% if request.path != "/" %}
+    <div class="bg-light border-bottom">
+        <div class="container py-2">
+
+            <a href="javascript:history.back()"
+               class="back-link">
+
+                ← Önceki Sayfaya Dön
+
+            </a>
+
+        </div>
+    </div>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer mt-5 pt-5 pb-4">
+        <div class="container">
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <h4 class="fw-bold text-white">
+                        ADSYS
+                    </h4>
+
+                    <p class="text-light">
+                        Afet Destek ve Yardım Sistemi; afet hazırlık ürünleri, bilgilendirme içerikleri,
+                        gönüllülük ve destek kampanyalarını tek platformda sunar.
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                    <h6 class="fw-bold text-white">
+                        Hızlı Menü
+                    </h6>
+
+                    <a href="/" class="d-block text-light text-decoration-none mb-2">Ana Sayfa</a>
+                    <a href="/magaza/" class="d-block text-light text-decoration-none mb-2">Mağaza</a>
+                    <a href="/bagis/" class="d-block text-light text-decoration-none mb-2">Afet Merkezi</a>
+                    <a href="/bagis/bilgi/" class="d-block text-light text-decoration-none mb-2">Bilgilendirme</a>
+                </div>
+
+                <div class="col-md-3">
+                    <h6 class="fw-bold text-white">
+                        Resmi Kurumlar
+                    </h6>
+
+                    <a href="https://www.afad.gov.tr" target="_blank" class="d-block text-light text-decoration-none mb-2">AFAD</a>
+                    <a href="https://www.kizilay.org.tr" target="_blank" class="d-block text-light text-decoration-none mb-2">Türk Kızılay</a>
+                    <a href="https://www.saglik.gov.tr" target="_blank" class="d-block text-light text-decoration-none mb-2">Sağlık Bakanlığı</a>
+                </div>
+
+                <div class="col-md-3">
+                    <h6 class="fw-bold text-white">
+                        İletişim
+                    </h6>
+
+                    <p class="text-light mb-1">
+                        E-posta: destek@adsys.com
+                    </p>
+
+                    <p class="text-light mb-1">
+                        Telefon: 112 Acil Çağrı
+                    </p>
+
+                    <p class="text-light mb-0">
+                        Türkiye
+                    </p>
+                </div>
+
+            </div>
+
+            <hr class="border-light my-4">
+
+            <div class="text-center text-light">
+                © 2026 ADSYS – Afet Destek ve Yardım Sistemi
+            </div>
+
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

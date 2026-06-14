@@ -1,122 +1,110 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>ADSYS Dashboard</title>
+{% extends "base.html" %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% block title %}Dashboard | ADSYS{% endblock %}
 
-<body class="bg-light">
+{% block content %}
 
-<nav class="navbar navbar-dark bg-dark">
+<section class="py-5 text-white" style="background:#0B1F3A;">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/panel/">
-            ADSYS Yönetim Paneli
-        </a>
-
-        <div>
-            <a href="/" class="btn btn-outline-light btn-sm me-2">
-                Mağazaya Git
-            </a>
-
-            <a href="/admin/" class="btn btn-warning btn-sm">
-                Admin Paneli
-            </a>
-        </div>
+        <h1 class="fw-bold">Yönetim Dashboard</h1>
+        <p class="lead mb-0">ADSYS platformunun genel yönetim ve takip ekranı.</p>
     </div>
-</nav>
+</section>
 
 <div class="container my-5">
 
-    <h1 class="mb-4">Dashboard</h1>
+    <div class="row g-4 mb-5">
+        <div class="col-md-2"><div class="dashboard-card text-center"><h3>{{ product_count }}</h3><p>Ürün</p></div></div>
+        <div class="col-md-2"><div class="dashboard-card text-center"><h3>{{ order_count }}</h3><p>Sipariş</p></div></div>
+        <div class="col-md-2"><div class="dashboard-card text-center"><h3>{{ user_count }}</h3><p>Kullanıcı</p></div></div>
+        <div class="col-md-2"><div class="dashboard-card text-center"><h3>{{ campaign_count }}</h3><p>Kampanya</p></div></div>
+        <div class="col-md-2"><div class="dashboard-card text-center"><h3>{{ volunteer_count }}</h3><p>Gönüllü</p></div></div>
+        <div class="col-md-2"><div class="dashboard-card text-center"><h3>{{ center_count }}</h3><p>Merkez</p></div></div>
+    </div>
 
     <div class="row g-4 mb-5">
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
+        <div class="col-lg-6">
+            <div class="card ad-card">
+                <div class="card-header">Platform Dağılımı</div>
                 <div class="card-body">
-                    <h6 class="text-muted">Toplam Ürün</h6>
-                    <h2>{{ total_products }}</h2>
+                    <canvas id="platformChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
+        <div class="col-lg-6">
+            <div class="card ad-card">
+                <div class="card-header">Sistem Özeti</div>
                 <div class="card-body">
-                    <h6 class="text-muted">Toplam Müşteri</h6>
-                    <h2>{{ total_customers }}</h2>
+                    <canvas id="summaryChart"></canvas>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="text-muted">Toplam Sipariş</h6>
-                    <h2>{{ total_orders }}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="text-muted">Toplam Gelir</h6>
-                    <h2>{{ total_revenue }} TL</h2>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <div class="row g-4">
 
         <div class="col-lg-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white fw-bold">
-                    Düşük Stoklu Ürünler
-                </div>
-
+            <div class="card ad-card h-100">
+                <div class="card-header">Kritik Stoklar</div>
                 <div class="card-body">
-                    {% for product in low_stock_products %}
-                        <div class="d-flex justify-content-between border-bottom py-2">
-                            <span>{{ product.name }}</span>
-                            <span class="badge bg-danger">
-                                Stok: {{ product.stock }}
-                            </span>
-                        </div>
+                    {% for product in low_stock %}
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                        <strong>{{ product.name }}</strong>
+                        <span class="text-danger">{{ product.stock }} adet</span>
+                    </div>
                     {% empty %}
-                        <p class="text-muted mb-0">
-                            Düşük stoklu ürün yok.
-                        </p>
+                    <p class="text-muted mb-0">Kritik stok bulunmuyor.</p>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white fw-bold">
-                    Son Siparişler
-                </div>
-
+            <div class="card ad-card h-100">
+                <div class="card-header">Kritik Bağış Merkezleri</div>
                 <div class="card-body">
-                    {% for order in recent_orders %}
-                        <div class="border-bottom py-2">
-                            <strong>Sipariş #{{ order.id }}</strong>
-                            <br>
-                            <small>
-                                {{ order.customer }} —
-                                {{ order.total_price }} TL —
-                                {{ order.get_status_display }}
-                            </small>
-                        </div>
+                    {% for center in critical_centers %}
+                    <div class="border-bottom py-2">
+                        <strong>{{ center.name }}</strong>
+                        <br>
+                        <small class="text-muted">{{ center.city }} - {{ center.occupancy_percent }}% dolu</small>
+                    </div>
                     {% empty %}
-                        <p class="text-muted mb-0">
-                            Henüz sipariş yok.
-                        </p>
+                    <p class="text-muted mb-0">Kritik merkez bulunmuyor.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card ad-card h-100">
+                <div class="card-header">Son Siparişler</div>
+                <div class="card-body">
+                    {% for order in last_orders %}
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                        <span>#{{ order.id }}</span>
+                        <strong>{{ order.total_price }} TL</strong>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted mb-0">Sipariş bulunmuyor.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card ad-card h-100">
+                <div class="card-header">Son Gönüllü Başvuruları</div>
+                <div class="card-body">
+                    {% for volunteer in last_volunteers %}
+                    <div class="border-bottom py-2">
+                        <strong>{{ volunteer.full_name }}</strong>
+                        <br>
+                        <small class="text-muted">{{ volunteer.city }} - {{ volunteer.get_support_area_display }}</small>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted mb-0">Gönüllü başvurusu yok.</p>
                     {% endfor %}
                 </div>
             </div>
@@ -126,5 +114,44 @@
 
 </div>
 
-</body>
-</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+new Chart(document.getElementById("platformChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["Ürün", "Sipariş", "Kullanıcı", "Kampanya", "Gönüllü", "Merkez"],
+        datasets: [{
+            data: [
+                {{ product_count }},
+                {{ order_count }},
+                {{ user_count }},
+                {{ campaign_count }},
+                {{ volunteer_count }},
+                {{ center_count }}
+            ],
+            backgroundColor: ["#F59E0B", "#0B1F3A", "#1D4ED8", "#DC2626", "#16A34A", "#64748B"]
+        }]
+    }
+});
+
+new Chart(document.getElementById("summaryChart"), {
+    type: "bar",
+    data: {
+        labels: ["Ürün", "Sipariş", "Kullanıcı", "Gönüllü", "Merkez"],
+        datasets: [{
+            label: "Toplam",
+            data: [
+                {{ product_count }},
+                {{ order_count }},
+                {{ user_count }},
+                {{ volunteer_count }},
+                {{ center_count }}
+            ],
+            backgroundColor: "#F59E0B"
+        }]
+    }
+});
+</script>
+
+{% endblock %}

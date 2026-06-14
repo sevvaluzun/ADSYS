@@ -32,6 +32,7 @@ urlpatterns = [
 
     path('hesap/', include('accounts.urls')),
     path('hesap/', include('django.contrib.auth.urls')),
+     path('bagis/', include('donations.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

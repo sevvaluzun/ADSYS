@@ -1,0 +1,39 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+Başvuru Alındı | ADSYS
+{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <div class="card ad-card text-center">
+        <div class="card-body p-5">
+
+            <div class="display-1 text-success mb-3">
+                ✓
+            </div>
+
+            <h1 class="fw-bold mb-3">
+                Gönüllü Başvurunuz Alındı
+            </h1>
+
+            <p class="text-muted mb-4">
+                Başvurunuz ADSYS sistemine kaydedildi. Resmi kurum başvuruları için ilgili kurumların bağlantılarını ayrıca inceleyebilirsiniz.
+            </p>
+
+            <a href="/bagis/" class="btn btn-dark me-2">
+                Afet Merkezine Dön
+            </a>
+
+            <a href="/bagis/gonullu/" class="btn btn-warning">
+                Yeni Başvuru Yap
+            </a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,303 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Afet Destek Merkezi | ADSYS{% endblock %}
+
+{% block content %}
+
+<section class="py-5 text-white" style="background:#0B1F3A;">
+    <div class="container">
+        <h1 class="fw-bold">Afet Destek Merkezi</h1>
+        <p class="lead mb-0">
+            Yardım kampanyaları, bağış merkezleri, gönüllülük ve afet hazırlık araçları tek platformda.
+        </p>
+    </div>
+</section>
+
+<div class="container my-5">
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="fw-bold">Gönüllü Ol</h4>
+                    <p class="text-muted">
+                        Afet dönemlerinde destek olmak için gönüllü başvurusu oluşturun.
+                    </p>
+                    <a href="{% url 'volunteer' %}" class="btn btn-warning w-100 mt-auto">
+                        Başvuru Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="fw-bold">Bilgilendirme</h4>
+                    <p class="text-muted">
+                        Deprem, yangın, sel ve ilk yardım rehberlerini inceleyin.
+                    </p>
+                    <a href="{% url 'information' %}" class="btn btn-dark w-100 mt-auto">
+                        Rehberleri Aç
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="fw-bold">Hazırlık Kontrolü</h4>
+                    <p class="text-muted">
+                        Afetlere ne kadar hazır olduğunuzu kontrol edin.
+                    </p>
+                    <a href="{% url 'preparedness_check' %}" class="btn btn-danger w-100 mt-auto">
+                        Kontrol Et
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="fw-bold">Bağış Yap</h4>
+                    <p class="text-muted">
+                        Para veya ürün bağışı yaparak aktif kampanyalara destek olun.
+                    </p>
+                    <a href="{% url 'donation_create' %}" class="btn btn-warning w-100 mt-auto fw-semibold">
+                        Bağış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="section-title">Bağış Merkezleri Haritası</h2>
+
+    <div class="card ad-card mb-5">
+        <div class="card-body p-0">
+            <div id="donationMap" style="height:420px; border-radius:20px;"></div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Bağış Toplama Merkezleri</h2>
+
+    <div class="row g-4 mb-5">
+        {% for center in centers %}
+        <div class="col-lg-4">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-1">{{ center.name }}</h4>
+                    <p class="text-muted mb-1">{{ center.city }}</p>
+
+                    <p class="small mb-2">
+                        <strong>Kampanya:</strong> {{ center.campaign.title }}
+                    </p>
+
+                    <p class="small text-muted">{{ center.address }}</p>
+
+                    {% if center.status == "kritik" %}
+                    <span class="badge bg-danger mb-3">Kritik Yoğunluk</span>
+                    {% endif %}
+
+                    {% if center.status == "orta" %}
+                    <span class="badge bg-warning text-dark mb-3">Orta Yoğunluk</span>
+                    {% endif %}
+
+                    {% if center.status == "dusuk" %}
+                    <span class="badge bg-success mb-3">Düşük Yoğunluk</span>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Doluluk</span>
+                        <strong>{{ center.occupancy_percent }}%</strong>
+                    </div>
+
+                    <div class="progress mb-2">
+                        {% if center.status == "kritik" %}
+                        <div class="progress-bar bg-danger"
+                             style="width: {{ center.occupancy_percent }}%;">
+                            {{ center.occupancy_percent }}%
+                        </div>
+                        {% endif %}
+
+                        {% if center.status == "orta" %}
+                        <div class="progress-bar bg-warning"
+                             style="width: {{ center.occupancy_percent }}%;">
+                            {{ center.occupancy_percent }}%
+                        </div>
+                        {% endif %}
+
+                        {% if center.status == "dusuk" %}
+                        <div class="progress-bar bg-success"
+                             style="width: {{ center.occupancy_percent }}%;">
+                            {{ center.occupancy_percent }}%
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <p class="small text-center mt-2 mb-3">
+                        {{ center.current_load }} / {{ center.capacity }} koli
+                    </p>
+
+                    <div class="row text-center mb-4">
+                        <div class="col-4">
+                            <div class="border rounded p-2 bg-light">
+                                <small>Kapasite</small>
+                                <div class="fw-bold">{{ center.capacity }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="border rounded p-2 bg-light">
+                                <small>Mevcut</small>
+                                <div class="fw-bold">{{ center.current_load }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="border rounded p-2 bg-light">
+                                <small>Boş</small>
+                                <div class="fw-bold">{{ center.remaining_capacity }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if center.urgent_need %}
+                    <div class="border rounded p-3 bg-light mb-3">
+                        <h6 class="fw-bold">Güncel İhtiyaçlar</h6>
+                        <pre class="mb-0 text-muted" style="white-space:pre-wrap;font-family:inherit;">{{ center.urgent_need }}</pre>
+                    </div>
+                    {% endif %}
+
+                    <p class="mb-1"><strong>Sorumlu:</strong> {{ center.manager|default:"Belirtilmedi" }}</p>
+                    <p class="mb-1"><strong>İletişim:</strong> {{ center.phone|default:"Belirtilmedi" }}</p>
+                    <p class="mb-3"><strong>Çalışma:</strong> {{ center.working_hours }}</p>
+
+                    {% if center.status == "kritik" %}
+                    <div class="alert alert-danger mb-0">
+                        <strong>Durum:</strong> Kritik Operasyon<br>
+                        Yardımlar farklı merkeze yönlendirilmelidir.
+                    </div>
+                    {% endif %}
+
+                    {% if center.status == "orta" %}
+                    <div class="alert alert-warning mb-0">
+                        <strong>Durum:</strong> Yoğun Operasyon<br>
+                        Lojistik destek önerilir.
+                    </div>
+                    {% endif %}
+
+                    {% if center.status == "dusuk" %}
+                    <div class="alert alert-success mb-0">
+                        <strong>Durum:</strong> Normal Operasyon<br>
+                        Yardım kabul ediliyor.
+                    </div>
+                    {% endif %}
+
+                    {% if center.map_link %}
+                    <a href="{{ center.map_link }}" target="_blank" class="btn btn-outline-dark w-100 mt-3">
+                        Haritada Gör
+                    </a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Henüz aktif bağış merkezi bulunmuyor.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="section-title" id="campaigns">Aktif Yardım Kampanyaları</h2>
+
+    <div class="row g-4">
+        {% for campaign in campaigns %}
+        <div class="col-lg-4">
+            <div class="card ad-card h-100">
+
+                {% if campaign.image %}
+                <img src="{{ campaign.image.url }}"
+                     class="card-img-top"
+                     style="height:220px;object-fit:cover;">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h4 class="fw-bold">{{ campaign.title }}</h4>
+                    <p class="text-muted">{{ campaign.location }}</p>
+                    <p>{{ campaign.description|truncatechars:160 }}</p>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <small>Toplanan</small>
+                            <small>{{ campaign.progress_percent }}%</small>
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-bar bg-danger"
+                                 style="width:{{ campaign.progress_percent }}%;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>{{ campaign.collected_amount }} TL</strong>
+                            <span class="text-muted">{{ campaign.target_amount }} TL</span>
+                        </div>
+
+                        {% if campaign.official_link %}
+                        <a href="{{ campaign.official_link }}"
+                           target="_blank"
+                           class="btn btn-danger w-100">
+                            Resmi Destek Sayfası
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                Henüz aktif kampanya bulunmuyor.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    var map = L.map('donationMap').setView([41.0082, 28.9784], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'OpenStreetMap'
+    }).addTo(map);
+
+    {% for center in centers %}
+        {% if center.latitude and center.longitude %}
+            L.marker([{{ center.latitude }}, {{ center.longitude }}]).addTo(map)
+                .bindPopup(`
+                    <strong>{{ center.name }}</strong><br>
+                    {{ center.city }}<br>
+                    Doluluk: {{ center.occupancy_percent }}%<br>
+                    İhtiyaç: {{ center.urgent_need|default:"Belirtilmedi" }}
+                `);
+        {% endif %}
+    {% endfor %}
+</script>
+
+{% endblock %}

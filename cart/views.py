@@ -7,14 +7,10 @@ from orders.models import Order, OrderItem
 
 @login_required
 def cart_detail(request):
-    cart, created = Cart.objects.get_or_create(
-        user=request.user
-    )
-
+    cart, created = Cart.objects.get_or_create(user=request.user)
     items = cart.items.all()
 
     total = 0
-
     for item in items:
         total += item.product.price * item.quantity
 
@@ -31,17 +27,13 @@ def cart_detail(request):
 
 @login_required
 def checkout(request):
-    cart, created = Cart.objects.get_or_create(
-        user=request.user
-    )
-
+    cart, created = Cart.objects.get_or_create(user=request.user)
     items = cart.items.all()
 
     if not items.exists():
         return redirect("cart_detail")
 
     total = 0
-
     for item in items:
         total += item.product.price * item.quantity
 
@@ -65,13 +57,13 @@ def checkout(request):
         )
 
         order = Order.objects.create(
-    user=request.user,
-    customer=customer,
-    phone=phone,
-    city=city,
-    address=address,
-    total_price=total,
-)
+            user=request.user,
+            customer=customer,
+            phone=phone,
+            city=city,
+            address=address,
+            total_price=total,
+        )
 
         for item in items:
             OrderItem.objects.create(
@@ -86,7 +78,7 @@ def checkout(request):
 
         items.delete()
 
-        return redirect("order_success")
+        return redirect("order_success_with_id", order_id=order.id)
 
     return render(
         request,
@@ -99,5 +91,13 @@ def checkout(request):
 
 
 @login_required
-def order_success(request):
-    return render(request, "order_success.html")
+def order_success(request, order_id):
+    order = Order.objects.get(id=order_id, user=request.user)
+
+    return render(
+        request,
+        "order_success.html",
+        {
+            "order": order
+        }
+    )

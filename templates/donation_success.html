@@ -1,0 +1,35 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Bağış Başarılı | ADSYS{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="card ad-card text-center">
+        <div class="card-body p-5">
+
+            <div class="display-1 text-warning mb-3">✓</div>
+
+            <h1 class="fw-bold mb-3">
+                Bağışınız Kaydedildi
+            </h1>
+
+            <p class="lead text-muted">
+                ADSYS bağış simülasyon sistemine desteğiniz başarıyla kaydedildi.
+            </p>
+
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                <a href="{% url 'donation_home' %}" class="btn btn-dark btn-lg">
+                    Afet Merkezine Dön
+                </a>
+
+                <a href="{% url 'donation_create' %}" class="btn btn-warning btn-lg">
+                    Yeni Bağış Yap
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

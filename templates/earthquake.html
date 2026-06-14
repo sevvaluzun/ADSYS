@@ -1,0 +1,91 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Deprem Rehberi{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <a href="{% url 'information' %}" class="btn btn-outline-secondary mb-4">
+        ← Bilgilendirme Merkezine Dön
+    </a>
+
+    <div class="card shadow border-0">
+
+        <div class="card-body p-5">
+
+            <h1 class="mb-4">
+                🏠 Deprem Rehberi
+            </h1>
+
+            <h3>Deprem Öncesi</h3>
+
+            <ul>
+
+                <li>Acil durum çantası hazırlayın.</li>
+
+                <li>Toplanma alanınızı öğrenin.</li>
+
+                <li>Dolapları duvara sabitleyin.</li>
+
+                <li>Aile afet planı oluşturun.</li>
+
+            </ul>
+
+            <hr>
+
+            <h3>Deprem Anında</h3>
+
+            <ul>
+
+                <li>ÇÖK – KAPAN – TUTUN hareketini uygulayın.</li>
+
+                <li>Camlardan uzak durun.</li>
+
+                <li>Asansör kullanmayın.</li>
+
+                <li>Panik yapmayın.</li>
+
+            </ul>
+
+            <hr>
+
+            <h3>Deprem Sonrası</h3>
+
+            <ul>
+
+                <li>Gaz kaçağını kontrol edin.</li>
+
+                <li>Hasarlı binalara girmeyin.</li>
+
+                <li>112 ve AFAD duyurularını takip edin.</li>
+
+                <li>Toplanma alanına gidin.</li>
+
+            </ul>
+
+            <div class="alert alert-warning mt-4">
+
+                <strong>Acil Telefonlar</strong>
+
+                <br><br>
+
+                112 Acil Çağrı
+
+                <br>
+
+                AFAD
+
+                <br>
+
+                110 İtfaiye
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

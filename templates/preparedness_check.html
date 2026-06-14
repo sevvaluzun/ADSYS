@@ -1,0 +1,131 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+Afet Hazırlık Kontrolü | ADSYS
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5 text-white" style="background:#0B1F3A;">
+    <div class="container">
+        <h1 class="fw-bold">Afet Hazırlık Kontrolü</h1>
+        <p class="lead mb-0">
+            Afetlere ne kadar hazır olduğunuzu kontrol edin.
+        </p>
+    </div>
+</section>
+
+<div class="container my-5">
+
+    <div class="card ad-card mb-4">
+        <div class="card-body p-4">
+
+            <h3 class="fw-bold mb-3">
+                Hazırlık Durumunuz
+            </h3>
+
+            <div class="progress mb-3" style="height:24px;">
+                <div class="progress-bar bg-warning"
+                     style="width: {{ progress }}%;">
+                    {{ progress }}%
+                </div>
+            </div>
+
+            {% if progress < 30 %}
+            <div class="alert alert-danger mt-3">
+                <strong>Hazırlık Seviyesi:</strong> Düşük<br>
+                Afetlere karşı hazırlığınız yetersiz görünüyor.
+            </div>
+            {% elif progress < 60 %}
+            <div class="alert alert-warning mt-3">
+                <strong>Hazırlık Seviyesi:</strong> Orta<br>
+                Hazırlığınız gelişiyor, ancak önemli eksikler var.
+            </div>
+            {% elif progress < 90 %}
+            <div class="alert alert-info mt-3">
+                <strong>Hazırlık Seviyesi:</strong> İyi<br>
+                Afet hazırlığınız büyük ölçüde tamamlanmış durumda.
+            </div>
+            {% else %}
+            <div class="alert alert-success mt-3">
+                <strong>Hazırlık Seviyesi:</strong> Çok İyi<br>
+                Afetlere karşı oldukça hazırlıklı görünüyorsunuz.
+            </div>
+            {% endif %}
+            <p class="text-muted mb-0">
+                İşaretlediğiniz maddelere göre afet hazırlık seviyeniz hesaplanır.
+            </p>
+
+        </div>
+    </div>
+
+    <div class="card ad-card">
+        <div class="card-body p-4">
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="form-check border-bottom py-3">
+                    {{ field }}
+                    <label class="form-check-label ms-2">
+                        {{ field.label }}
+                    </label>
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-warning btn-lg mt-4">
+                    Kontrolü Kaydet
+                </button>
+            </form>
+
+            <div class="card ad-card mt-4">
+                <div class="card-body">
+                    <h4 class="fw-bold mb-3">Eksik Hazırlıklarınız</h4>
+
+                    <ul class="mb-0">
+                        {% if not check.emergency_bag %}
+                        <li>Acil durum çantası hazırlayın.</li>
+                        {% endif %}
+
+                        {% if not check.meeting_area %}
+                        <li>Toplanma alanınızı öğrenin.</li>
+                        {% endif %}
+
+                        {% if not check.first_aid %}
+                        <li>İlk yardım çantası temin edin.</li>
+                        {% endif %}
+
+                        {% if not check.family_plan %}
+                        <li>Aile afet planı hazırlayın.</li>
+                        {% endif %}
+
+                        {% if not check.emergency_numbers %}
+                        <li>Acil telefon numaralarını kaydedin.</li>
+                        {% endif %}
+
+                        {% if not check.powerbank %}
+                        <li>Powerbank’inizi hazır bulundurun.</li>
+                        {% endif %}
+
+                        {% if not check.flashlight %}
+                        <li>El feneri edinin.</li>
+                        {% endif %}
+
+                        {% if not check.water_food %}
+                        <li>En az 72 saat yetecek su ve dayanıklı gıda bulundurun.</li>
+                        {% endif %}
+
+                        {% if progress == 100 %}
+                        <li class="text-success">Tüm hazırlıklar tamamlanmış görünüyor.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

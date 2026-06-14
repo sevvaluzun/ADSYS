@@ -1,33 +1,26 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+
 from products.models import Product
-from customers.models import Customer
 from orders.models import Order
+from django.contrib.auth.models import User
+from donations.models import Campaign, Volunteer
 
 
-def dashboard_home(request):
-    total_products = Product.objects.count()
-    total_customers = Customer.objects.count()
-    total_orders = Order.objects.count()
+@login_required
+def dashboard(request):
 
-    total_revenue = 0
-    for order in Order.objects.all():
-        total_revenue += order.total_price
+    context = {
+        "product_count": Product.objects.count(),
+        "order_count": Order.objects.count(),
+        "user_count": User.objects.count(),
+        "campaign_count": Campaign.objects.filter(active=True).count(),
+        "volunteer_count": Volunteer.objects.count(),
 
-    low_stock_products = Product.objects.filter(
-        stock__lte=5
-    )
+        "low_stock": Product.objects.filter(stock__lte=5),
+        "last_orders": Order.objects.order_by("-created_at")[:5],
+        "last_campaigns": Campaign.objects.order_by("-created_at")[:5],
+        "last_volunteers": Volunteer.objects.order_by("-created_at")[:5],
+    }
 
-    recent_orders = Order.objects.order_by("-created_at")[:5]
-
-    return render(
-        request,
-        "dashboard.html",
-        {
-            "total_products": total_products,
-            "total_customers": total_customers,
-            "total_orders": total_orders,
-            "total_revenue": total_revenue,
-            "low_stock_products": low_stock_products,
-            "recent_orders": recent_orders,
-        }
-    )
+    return render(request, "dashboard.html", context)

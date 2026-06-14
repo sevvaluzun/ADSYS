@@ -1,0 +1,155 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+{{ disaster.title }} Rehberi | ADSYS
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5 text-white" style="background:#0B1F3A;">
+    <div class="container">
+        <h1 class="fw-bold">{{ disaster.title }} Rehberi</h1>
+        <p class="lead mb-0">
+            Afet öncesi, afet anı ve afet sonrası için hazırlanmış kapsamlı bilgilendirme rehberi.
+        </p>
+    </div>
+</section>
+
+<div class="container my-5">
+
+    <div class="card ad-card mb-4">
+        <div class="card-body p-4 p-lg-5">
+            <h3 class="fw-bold mb-3">
+                {{ disaster.title }} Nedir?
+            </h3>
+
+            <p class="lead text-muted" style="white-space: pre-line; text-align: justify;">
+                {{ disaster.description }}
+            </p>
+        </div>
+    </div>
+
+    {% for section in disaster.extra_sections %}
+    <div class="card ad-card mb-4">
+        <div class="card-body p-4 p-lg-5">
+            <h3 class="fw-bold mb-3">
+                {{ section.heading }}
+            </h3>
+
+            <p class="text-muted" style="white-space: pre-line; text-align: justify;">
+                {{ section.text }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-3">
+                        Afet Öncesinde Yapılması Gerekenler
+                    </h4>
+
+                    <ul class="mb-0">
+                        {% for item in disaster.before %}
+                        <li class="mb-2">
+                            {{ item }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-3">
+                        Afet Anında Yapılması Gerekenler
+                    </h4>
+
+                    <ul class="mb-0">
+                        {% for item in disaster.during %}
+                        <li class="mb-2">
+                            {{ item }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-3">
+                        Afet Sonrasında Yapılması Gerekenler
+                    </h4>
+
+                    <ul class="mb-0">
+                        {% for item in disaster.after %}
+                        <li class="mb-2">
+                            {{ item }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card ad-card h-100">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-3">
+                        Yapılmaması Gerekenler
+                    </h4>
+
+                    <ul class="mb-0">
+                        {% for item in disaster.dont %}
+                        <li class="mb-2">
+                            {{ item }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card ad-card mt-4">
+        <div class="card-body p-4 p-lg-5">
+            <h4 class="fw-bold mb-4">
+                Sık Sorulan Sorular
+            </h4>
+
+            {% for question, answer in disaster.faq %}
+            <div class="border-bottom pb-3 mb-3">
+                <h5 class="fw-bold">
+                    {{ question }}
+                </h5>
+
+                <p class="text-muted mb-0">
+                    {{ answer }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-4">
+        <strong>Acil Durumlarda:</strong>
+        112 Acil Çağrı Merkezi aranmalıdır. Gereksiz telefon kullanımı acil yardım hatlarının meşgul olmasına neden olabilir.
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'information' %}" class="btn btn-dark">
+            Bilgilendirme Merkezine Dön
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

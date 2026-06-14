@@ -1,0 +1,123 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Bağış Yap | ADSYS{% endblock %}
+
+{% block content %}
+
+<section class="py-5 text-white" style="background:#0B1F3A;">
+    <div class="container">
+        <h1 class="fw-bold">Bağış Yap</h1>
+        <p class="lead mb-0">
+            Para veya ürün bağışı yaparak aktif yardım kampanyalarına destek olun.
+        </p>
+    </div>
+</section>
+
+<div class="container my-5">
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+            <div class="card ad-card">
+                <div class="card-body p-5">
+
+                    <h3 class="fw-bold mb-4">Bağış Bilgileri</h3>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Kampanya</label>
+                            {{ form.campaign }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ad Soyad</label>
+                                {{ form.full_name }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefon</label>
+                                {{ form.phone }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">E-Posta</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bağış Türü</label>
+                            {{ form.donation_type }}
+                        </div>
+
+                        <div class="mb-3" id="amountBox">
+                            <label class="form-label">Bağış Tutarı</label>
+                            {{ form.amount }}
+                        </div>
+
+                        <div class="mb-3" id="productBox">
+                            <label class="form-label">Ürün Bağışı Açıklaması</label>
+                            {{ form.product_description }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Not</label>
+                            {{ form.message }}
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg w-100 fw-semibold">
+                            Bağışı Tamamla
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card ad-card mb-4">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold">Bağış Bilgilendirmesi</h4>
+                    <p class="text-muted">
+                        Bu sistem gerçek ödeme almaz. Bağış işlemi proje içinde simülasyon olarak kaydedilir.
+                    </p>
+
+                    <hr>
+
+                    <p class="mb-2"><strong>Para Bağışı:</strong> Kampanya toplamına eklenir.</p>
+                    <p class="mb-0"><strong>Ürün Bağışı:</strong> Ürün açıklaması kayıt altına alınır.</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                Gerçek bağış işlemleri için kampanya kartlarındaki resmi kurum bağlantılarını kullanmanız önerilir.
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleDonationFields() {
+    const type = document.getElementById("donationType").value;
+    const amountBox = document.getElementById("amountBox");
+    const productBox = document.getElementById("productBox");
+
+    if (type === "para") {
+        amountBox.style.display = "block";
+        productBox.style.display = "none";
+    } else {
+        amountBox.style.display = "none";
+        productBox.style.display = "block";
+    }
+}
+
+document.getElementById("donationType").addEventListener("change", toggleDonationFields);
+toggleDonationFields();
+</script>
+
+{% endblock %}

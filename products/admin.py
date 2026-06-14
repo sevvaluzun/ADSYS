@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Product, Category, Supplier
-
+from .models import Product, Category, Supplier, Favorite
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -23,7 +23,9 @@ class SupplierAdmin(admin.ModelAdmin):
         "email",
     )
 
-
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ("user", "product", "created_at")
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -44,3 +46,4 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         "description",
     )
+

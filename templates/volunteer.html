@@ -1,0 +1,144 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+Gönüllü Başvurusu | ADSYS
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5 text-white" style="background:#0B1F3A;">
+    <div class="container">
+        <h1 class="fw-bold"> Gönüllü Başvurusu</h1>
+        <p class="lead mb-0">
+            Afet zamanlarında destek olmak için gönüllülük başvurusu oluşturun.
+        </p>
+    </div>
+</section>
+
+<div class="container my-5">
+
+    <div class="row g-4">
+
+        <div class="col-lg-7">
+            <div class="card ad-card">
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-4">
+                        Başvuru Formu
+                    </h3>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Ad Soyad</label>
+                            {{ form.full_name }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Telefon</label>
+                            {{ form.phone }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">E-Posta</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Şehir</label>
+                            {{ form.city }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Destek Alanı</label>
+                            {{ form.support_area }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Açıklama</label>
+                            {{ form.message }}
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-lg w-100">
+                            Başvuruyu Gönder
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+
+            <div class="card ad-card mb-4">
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Resmi Gönüllülük Platformları
+                    </h4>
+
+                    <div class="official-org mb-3">
+                        <h5 class="fw-bold mb-1">AFAD Gönüllülük Sistemi</h5>
+                        <p class="text-muted mb-2">
+                            Afet farkındalığı, saha desteği, lojistik destek ve afet sonrası yardım organizasyonları.
+                        </p>
+                        <a href="https://gonullu.afad.gov.tr" target="_blank" class="btn btn-dark w-100">
+                            AFAD Gönüllüsü Ol
+                        </a>
+                    </div>
+
+                    <div class="official-org mb-3">
+                        <h5 class="fw-bold mb-1">Türk Kızılay</h5>
+                        <p class="text-muted mb-2">
+                            Kan bağışı, insani yardım, sosyal destek, afet yardımı ve temel ihtiyaç dağıtımı.
+                        </p>
+                        <a href="https://www.kizilay.org.tr" target="_blank" class="btn btn-dark w-100">
+                            Kızılay Gönüllüsü Ol
+                        </a>
+                    </div>
+
+                    <div class="official-org mb-3">
+                        <h5 class="fw-bold mb-1">AKUT</h5>
+                        <p class="text-muted mb-2">
+                            Arama kurtarma, dağ-kaza operasyonları, afet müdahalesi ve eğitim faaliyetleri.
+                        </p>
+                        <a href="https://www.akut.org.tr" target="_blank" class="btn btn-dark w-100">
+                            AKUT Gönüllüsü Ol
+                        </a>
+                    </div>
+
+                    <div class="official-org mb-3">
+                        <h5 class="fw-bold mb-1">UMKE</h5>
+                        <p class="text-muted mb-2">
+                            Sağlık desteği, acil tıbbi müdahale, afetlerde sağlık organizasyonu ve saha sağlık hizmetleri.
+                        </p>
+                        <a href="https://www.saglik.gov.tr" target="_blank" class="btn btn-dark w-100">
+                            UMKE Bilgilendirme
+                        </a>
+                    </div>
+
+                    <div class="official-org">
+                        <h5 class="fw-bold mb-1">ANDA</h5>
+                        <p class="text-muted mb-2">
+                            İnsani yardım, arama kurtarma, kriz desteği ve afet bölgelerinde saha çalışmaları.
+                        </p>
+                        <a href="https://www.anda.org.tr" target="_blank" class="btn btn-dark w-100">
+                            ANDA Gönüllüsü Ol
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                Başvurunuz ADSYS sistemine kaydedilir. Resmi kurum başvuruları için ilgili kurum sayfalarını ziyaret etmeniz gerekir.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
