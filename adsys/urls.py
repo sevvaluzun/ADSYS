@@ -18,11 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.http import HttpResponse
+from django.core.management import call_command
 admin.site.site_header = "ADSYS Yönetim Paneli"
 admin.site.site_title = "ADSYS"
 admin.site.index_title = "Yönetim Ana Sayfası"
 
+def run_seed_data(request):
+    if request.GET.get("key") != "adsys2026":
+        return HttpResponse("Yetkisiz işlem", status=403)
+
+    call_command("seed_data")
+    return HttpResponse("Seed data başarıyla çalıştı.")
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -33,6 +40,16 @@ urlpatterns = [
     path('hesap/', include('accounts.urls')),
     path('hesap/', include('django.contrib.auth.urls')),
      path('bagis/', include('donations.urls')),
+     path("run-seed-data/", run_seed_data),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+import os
+from django.core.management import call_command
+
+if os.environ.get("RUN_SEED_DATA") == "1":
+    try:
+        call_command("seed_data")
+    except Exception as e:
+        print("Seed data error:", e)
