@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from cart.models import Cart, CartItem
 from .models import Product, Category
-from cart.models import Cart
+
 
 
 ALLOWED_PRODUCT_IDS = [
@@ -70,8 +70,7 @@ def product_detail(request, product_id):
 
 @login_required
 def add_to_cart(request, product_id):
-    return redirect("home")
-    
+    product = get_object_or_404(Product, id=product_id, is_active=True)
 
     cart, created = Cart.objects.get_or_create(user=request.user)
 
@@ -84,4 +83,4 @@ def add_to_cart(request, product_id):
         item.quantity += 1
         item.save()
 
-    return redirect("home")
+    return redirect("cart_detail")
