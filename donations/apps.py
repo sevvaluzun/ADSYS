@@ -1,5 +1,6 @@
-from django.apps import AppConfig
+﻿from django.apps import AppConfig
 
 
 class DonationsConfig(AppConfig):
     name = 'donations'
+    verbose_name = "Bağış Yönetimi"

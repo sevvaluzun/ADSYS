@@ -28,28 +28,3 @@ class Cart(models.Model):
         return f"Sepet #{self.id}"
 
 
-class CartItem(models.Model):
-    cart = models.ForeignKey(
-        Cart,
-        on_delete=models.CASCADE,
-        related_name="items",
-        verbose_name="Sepet"
-    )
-
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        verbose_name="Ürün"
-    )
-
-    quantity = models.PositiveIntegerField(
-        "Adet",
-        default=1
-    )
-
-    class Meta:
-        verbose_name = "Sepet Kalemi"
-        verbose_name_plural = "Sepet Kalemleri"
-
-    def __str__(self):
-        return f"{self.product.name} x {self.quantity}"
