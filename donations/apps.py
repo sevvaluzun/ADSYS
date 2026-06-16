@@ -3,4 +3,4 @@
 
 class DonationsConfig(AppConfig):
     name = 'donations'
-    verbose_name = "Bağış Yönetimi"
+    verbose_name = "Bagis Yonetimi"
