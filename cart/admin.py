@@ -2,14 +2,7 @@ from django.contrib import admin
 from .models import Cart
 
 
-
-
-
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "created_at",
-    )
-
-    inlines = [CartItemInline]
+    list_display = ("id", "user", "created_at")
+    search_fields = ("user__username",)
