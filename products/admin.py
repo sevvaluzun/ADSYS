@@ -35,7 +35,7 @@ class ProductAdmin(admin.ModelAdmin):
         "price",
         "stock",
         "is_active",
-        "is_featured",
+        "is_featured"
     )
 
     list_filter = (
