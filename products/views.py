@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Category
 from cart.models import Cart, CartItem
 
+
 ALLOWED_PRODUCT_IDS = [
     18, 13, 34, 25, 35, 24, 52, 77, 15, 32,
     53, 56, 10, 2, 46, 60, 20, 22, 61, 26,
@@ -12,18 +13,25 @@ ALLOWED_PRODUCT_IDS = [
     51, 11, 49, 54, 17, 3
 ]
 
-products = Product.objects.filter(
-    id__in=ALLOWED_PRODUCT_IDS,
-    is_active=True
-)
 
-   
+def landing(request):
+    products = Product.objects.filter(
+        id__in=ALLOWED_PRODUCT_IDS,
+        is_active=True
+    )[:4]
+
+    return render(request, "landing.html", {"products": products})
+
 
 def home(request):
     query = request.GET.get("q")
     category_id = request.GET.get("category")
 
-    products = Product.objects.filter(is_active=True)
+    products = Product.objects.filter(
+        id__in=ALLOWED_PRODUCT_IDS,
+        is_active=True
+    )
+
     categories = Category.objects.all()
 
     if query:
@@ -32,39 +40,42 @@ def home(request):
     if category_id:
         products = products.filter(category_id=category_id)
 
-    return render(
-        request,
-        "home.html",
-        {
-            "products": products,
-            "categories": categories,
-            "query": query,
-            "selected_category": category_id,
-        }
-    )
+    return render(request, "home.html", {
+        "products": products,
+        "categories": categories,
+        "query": query,
+        "selected_category": category_id,
+    })
 
 
 def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id, is_active=True)
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        id__in=ALLOWED_PRODUCT_IDS,
+        is_active=True
+    )
 
     related_products = Product.objects.filter(
+        id__in=ALLOWED_PRODUCT_IDS,
         category=product.category,
         is_active=True
     ).exclude(id=product.id)[:4]
 
-    return render(
-        request,
-        "product_detail.html",
-        {
-            "product": product,
-            "related_products": related_products,
-        }
-    )
+    return render(request, "product_detail.html", {
+        "product": product,
+        "related_products": related_products,
+    })
 
 
 @login_required
 def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id, is_active=True)
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        id__in=ALLOWED_PRODUCT_IDS,
+        is_active=True
+    )
 
     cart, created = Cart.objects.get_or_create(user=request.user)
 
