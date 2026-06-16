@@ -4,14 +4,20 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Category
 from cart.models import Cart, CartItem
 
+ALLOWED_PRODUCT_IDS = [
+    18, 13, 34, 25, 35, 24, 52, 77, 15, 32,
+    53, 56, 10, 2, 46, 60, 20, 22, 61, 26,
+    42, 16, 48, 40, 58, 43, 23, 62, 8, 57,
+    45, 29, 9, 39, 50, 44, 47, 31, 64,
+    51, 11, 49, 54, 17, 3
+]
 
-def landing(request):
-    products = Product.objects.filter(
-        is_active=True,
-        is_featured=True
-    )[:4]
+products = Product.objects.filter(
+    id__in=ALLOWED_PRODUCT_IDS,
+    is_active=True
+)
 
-    return render(request, "landing.html", {"products": products})
+   
 
 def home(request):
     query = request.GET.get("q")
