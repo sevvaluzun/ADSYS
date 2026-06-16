@@ -91,6 +91,10 @@ class Product(models.Model):
         default=True
     )
 
+    is_featured = models.BooleanField(
+    "Öne Çıkan Ürün",
+    default=False
+)
     created_at = models.DateTimeField(
         "Oluşturulma Tarihi",
         auto_now_add=True

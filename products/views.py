@@ -6,10 +6,12 @@ from cart.models import Cart, CartItem
 
 
 def landing(request):
-    products = Product.objects.filter(is_active=True)[:4]
+    products = Product.objects.filter(
+        is_active=True,
+        is_featured=True
+    )[:4]
 
     return render(request, "landing.html", {"products": products})
-
 
 def home(request):
     query = request.GET.get("q")

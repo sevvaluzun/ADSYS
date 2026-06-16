@@ -35,11 +35,13 @@ class ProductAdmin(admin.ModelAdmin):
         "price",
         "stock",
         "is_active",
+        "is_featured",
     )
 
     list_filter = (
         "category",
         "is_active",
+        "is_featured",
     )
 
     search_fields = (
