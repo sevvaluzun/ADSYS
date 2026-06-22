@@ -6,9 +6,35 @@ from .models import PreparednessCheck
 from .forms import PreparednessCheckForm
 from .forms import DonationForm
 from .forms import DonationForm
+def fix_campaign_text(campaign):
+    if campaign.title == "ksdjkjfs":
+        campaign.title = "Deprem Bölgesi Acil Gıda Yardımı"
+        campaign.location = "Kahramanmaraş"
+        campaign.description = (
+            "Depremden etkilenen bölgelerdeki vatandaşlara ulaştırılmak üzere "
+            "gıda, hijyen ve temel yaşam malzemeleri desteği sağlanmaktadır."
+        )
+
+    elif campaign.title == "Abcd":
+        campaign.title = "Sel Afeti Temel İhtiyaç Kampanyası"
+        campaign.location = "İstanbul"
+        campaign.description = (
+            "Sel afetinden etkilenen ailelerin temel ihtiyaçlarının karşılanması "
+            "amacıyla yardım kampanyası düzenlenmektedir."
+        )
+
+    return campaign
+
+
 def donation_home(request):
-    campaigns = Campaign.objects.filter(active=True).order_by("-created_at")
-    centers = DonationCenter.objects.filter(active=True)
+    campaigns = list(Campaign.objects.filter(active=True).order_by("-created_at"))
+    centers = list(DonationCenter.objects.filter(active=True).select_related("campaign"))
+
+    campaigns = [fix_campaign_text(campaign) for campaign in campaigns]
+
+    for center in centers:
+        if center.campaign:
+            center.campaign = fix_campaign_text(center.campaign)
 
     return render(
         request,
