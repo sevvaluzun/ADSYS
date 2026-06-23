@@ -70,7 +70,8 @@ Users can browse products by category, view detailed product information, add pr
 The Donation Centers module allows users to view active disaster relief centers, monitor their occupancy levels, check urgent needs, and access location information. This feature helps direct donations to the most appropriate centers and improves the efficiency of disaster relief operations.
 
 <p align="center">
-<img width="1085" height="592" alt="adsys" src="https://github.com/user-attachments/assets/bba29ee2-81c4-4f07-bc74-eb20edb165de" />
+<img width="892" height="516" alt="bgs" src="https://github.com/user-attachments/assets/b648795b-1a25-4e0f-8d75-49c20514ef42" />
+
 </p>
 
 <p align="center">
